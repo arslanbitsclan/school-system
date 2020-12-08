@@ -95,10 +95,12 @@
        });
    });
   function customers_bulk_action(event) {
+
         var r = confirm(app.lang.confirm_action_prompt);
         if (r == false) {
             return false;
         } else {
+        	
             var mass_delete = $('#mass_delete').prop('checked');
             var ids = [];
             var data = {};

@@ -10,71 +10,51 @@
                         <span class="edit-title"><?php echo _l('Backup'); ?></span>
                         </h4>
                         <div class="clearfix"></div>
+                        
                         <hr class="hr-panel-heading" />
+                         <div class="_buttons">
+
+                            <a href="<?php echo admin_url('Backup_crm/build_backups'); ?>" class="btn btn-info pull-left display-block"><?php echo _l('Backup'); ?></a>
+                        </div>
 
                         <div class="clearfix"></div>
 
                         <div class="clearfix mtop20"></div>
-       <div class="message_box">
-    <?php
-        if (isset($success) && strlen($success)) {
-            echo '<div class="success">';
-            echo '<p>' . $success . '</p>';
-            echo '</div>';
-        }
-
-        if (isset($errors) && strlen($errors)) {
-            echo '<div class="error">';
-            echo '<p>' . $errors . '</p>';
-            echo '</div>';
-        }
-
-        if (validation_errors()) {
-            echo validation_errors('<div class="error">', '</div>');
-        }
-    ?>
-    </div>
-    <?php
-        $back_url = $this->uri->uri_string();
-        $key = 'referrer_url_key';
-        $this->session->set_flashdata($key, $back_url);
-    ?>
+     
+   
     <div class="body body-s">
-    <?php
-        echo form_open($this->uri->uri_string());
-    ?>
+    
+     <?php echo form_open($this->uri->uri_string(),array('class'=>'backup-form','autocomplete'=>'off')); ?>
     <fieldset>
-        <section>
-            <label>Backup created at</label>
-            <label>
-                <select name="backup_type">
-                <option value="" selected disabled>Backup Type</option>
-                <option value="1" >Every Hour</option>
-                <option value="2" >Every Week</option>
-                <option value="3" >Every Month</option>
-                </select>
-            </label>
-        </section>
+         <div class="form-group select-placeholder">
+                        <label for="backup_type"><?php echo _l('Backup created at'); ?></label>
+                        <select class="selectpicker" data-none-selected-text="<?php echo _l('Every Hour'); ?>" data-width="100%" name="backup_type" id="backup_type">
+                           <option value="" <?php if(isset($member) && empty($member->backup_type)){echo 'selected';} ?>></option>
+                           <option value="everyhour" <?php if(isset($member) && $member->backup_type == 'everyhour'){echo 'selected';} ?>>Every Hour</option>
+                           <option value="everyweek" <?php if(isset($member) && $member->backup_type == 'everyweek'){echo 'selected';} ?>>Every Week</option>
+                           <option value="everymonth" <?php if(isset($member) && $member->backup_type == 'everymonth'){echo 'selected';} ?>>Every Month</option>
+                        </select>
+                     </div>
 
-        <section>
-              <label>Auto remove bachup</label>
-            <label>
-                <select name="backup_remove">
-                <option value="" selected disabled>Backup Type</option>
-                <option value="1" >After Every Day</option>
-                <option value="2" >After Every Week</option>
-                <option value="3" >After Every Month</option>
-                </select>
-            </label>
-        </section>
+        
+
+         <div class="form-group select-placeholder">
+                        <label for="auto_remove_backup"><?php echo _l('Auto Remove Backup'); ?></label>
+                        <select class="selectpicker" data-none-selected-text="<?php echo _l('After Every Day'); ?>" data-width="100%" name="auto_remove_backup" id="auto_remove_backup">
+                        <option value="" <?php if(isset($member) && empty($member->auto_remove_backup)){echo 'selected';} ?>></option>
+                        <option value="aftereveryday" <?php if(isset($member) && $member->auto_remove_backup == 'aftereveryday'){echo 'selected';} ?>>After Every Day</option>
+                        <option value="aftereveryweek" <?php if(isset($member) && $member->auto_remove_backup == 'aftereveryweek'){echo 'selected';} ?>>After Every Week</option>
+                        <option value="aftereverymonth" <?php if(isset($member) && $member->auto_remove_backup == 'aftereverymonth'){echo 'selected';} ?>>After Every Month</option>
+                        </select>
+                     </div>
     </fieldset>
 
-    <footer>
-        <button type="submit" name="backup" value="backup" class="button">Get Backup</button>
-    </footer>
-    <?php
-        echo form_close();
-    ?>
+                        <div class="">
+                            <button type="submit" class="btn btn-info pull-right"><?php echo _l('submit'); ?></button>
+                        </div>
+                     <?php
+                         echo form_close();
+                        ?>
                       
                    
                     </div>
@@ -83,6 +63,18 @@
         </div>
     </div>
     <?php init_tail();?>
+    <script>
+       
+    window.addEventListener('load',function(){
+        appValidateForm($('.backup-form'), {
+            backup_type: 'required',
+            auto_remove_backup: 'required',
+            
+            
+            
+         });
+         });
+</script>
 
 
 
